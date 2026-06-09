@@ -1,0 +1,34 @@
+ALL_PRODUCT_LIST_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "responseCode": {"type": "integer"},
+        "products": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "integer"},
+                    "name": {"type": "string"},
+                    "price": {"type": "string"},
+                    "brand": {"type": "string"},
+                    "category": {
+                        "type": "object",
+                        "properties": {
+                            "usertype": {
+                                "type": "object",
+                                "properties": {
+                                    "usertype": {"type": "string"}
+                                },
+                                "required": ["usertype"]
+                            },
+                            "category": {"type": "string"}
+                        },
+                        "required": ["usertype", "category"]
+                    }
+                },
+                "required": ["id", "name", "price", "brand", "category"]
+            }
+        }
+    },
+    "required": ["responseCode", "products"]
+}
