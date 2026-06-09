@@ -7,7 +7,7 @@ Tech Stack:
 - Pytest
 - Requests
 - Jsonschema
-- 
+  
 Project Structure
 .
 ├── tests/
@@ -34,55 +34,10 @@ Run Tests:
 - pytest
 - pytest -v
 
-Defects Found
-
-Several inconsistencies between API documentation and actual behavior were discovered.
-
-1. Incorrect HTTP Status Codes
-
-Documentation expects:
-- 405 Method Not Allowed
-- 400 Bad Request
-- 404 Not Found
-
-Actual response: HTTP/1.1 200 OK
-while the real error code is returned inside JSON:
-{
-  "responseCode":405,
-  "message":"This request method is not supported."
-}
-
-Affected endpoints:
-- POST /productsList
-- PUT /brandsList
-- DELETE /verifyLogin
-- Verify login with invalid credentials
-- Verify login without required parameters
-
-Tests are marked as @pytest.mark.xfail because the implementation does not match the API specification.
-
-2. Search Product without parameter
-
-Expected:
-{
-    "responseCode":400,
-    "message":"Bad request, search_product parameter is missing in POST request."
-}
-
-Actual: API returns the complete product list.
-
-3. User creation response
-
-Documentation specifies:
-HTTP Status Code: 201
-
-Actual: HTTP response status is always: 200
-
-while:
-{
-    "responseCode":201,
-    "message":"User created!"
-}
-is returned inside response body.
-
+Several defects were found during API testing:
+- Some endpoints return HTTP 200 instead of documented error status codes (400, 404, 405). These cases are marked with @pytest.mark.xfail.
+- POST /api/searchProduct with an empty search_product parameter returns the complete products list instead of a validation error, which indicates incorrect search endpoint behavior.
+  
+Bug Tracking
+Defects identified during testing were documented in Jira.
 
